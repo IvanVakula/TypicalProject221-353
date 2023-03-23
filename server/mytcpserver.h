@@ -14,15 +14,15 @@ class MyTcpServer : public QObject
 public:
     explicit MyTcpServer(QObject *parent = nullptr);
     ~MyTcpServer();
+
 public slots:
     void slotNewConnection();
     void slotClientDisconnected();
-
     void slotServerRead();
-    //void slotReadClient();
+
 private:
     QTcpServer * mTcpServer;
-    QTcpSocket * mTcpSocket;
+    std::list<QTcpSocket*> TcpSocketList;
     int server_status;
 };
 #endif // MYTCPSERVER_H

@@ -9,6 +9,10 @@ parsing — функция, которая обрабатывает сообще
 Аргумент data — сообщение, пришедшее от клиента
 Возвращаемое значение — ответ соответствующей функции
 */
-QByteArray parsing(QByteArray data);
-
+QByteArray parse(QString request);
+QString auth(QString login,QString password);
+QString reg(QString login,QString password);
+QString getStat();
+QString getTask(int taskType);
+QString checkTask(int taskId, int answer);
 #endif

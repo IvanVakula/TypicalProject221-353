@@ -24,21 +24,26 @@ MyTcpServer::MyTcpServer(QObject *parent) : QObject(parent){
 
 void MyTcpServer::slotNewConnection(){
     if(server_status==1){
-        mTcpSocket = mTcpServer->nextPendingConnection();
-        mTcpSocket->write("Hello, World!!! I am echo server!\r\n");
-        connect(mTcpSocket, &QTcpSocket::readyRead, this,&MyTcpServer::slotServerRead);
-        connect(mTcpSocket,&QTcpSocket::disconnected, this,&MyTcpServer::slotClientDisconnected);
+        QTcpSocket *tempSocket;
+        tempSocket = mTcpServer->nextPendingConnection();
+        tempSocket->write("Hello!!!\r\n");
+        connect(tempSocket, &QTcpSocket::readyRead, this,&MyTcpServer::slotServerRead);
+        connect(tempSocket,&QTcpSocket::disconnected, this,&MyTcpServer::slotClientDisconnected);
+        TcpSocketList.push_front(tempSocket);
     }
 }
 
 void MyTcpServer::slotServerRead() {
-    while(mTcpSocket->bytesAvailable()>0) {
-        QByteArray input = mTcpSocket->readAll();
-        QByteArray response = parsing(input);
-        mTcpSocket->write(response);
+    QTcpSocket* tempSocket = (QTcpSocket*)sender();
+    QString request;
+    while(tempSocket->bytesAvailable()>0) {
+        request.append(tempSocket->readAll());
     }
+    QByteArray response = parse(request) + "\r\n";
+    tempSocket->write(response);
 }
 
 void MyTcpServer::slotClientDisconnected(){
-    mTcpSocket->close();
+    QTcpSocket* tempSocket = (QTcpSocket*)sender();
+    tempSocket->close();
 }
