@@ -1,7 +1,7 @@
-#pragma once
-#include <QSqlDatabase>
 #ifndef DATABASE_H
 #define DATABASE_H
+
+#include <QSqlDatabase>
 
 class Database;
 
@@ -11,10 +11,10 @@ class DatabaseDestroyer
         Database * pInstance;
     public:
         ~DatabaseDestroyer() {
-            delete pInstance;
+            delete this->pInstance;
         }
         void initialize(Database * p) {
-            pInstance = p;
+            this->pInstance = p;
         }
 };
 
@@ -24,14 +24,14 @@ class Database {
         static Database * pInstance;
         void initDB();
         static QSqlDatabase dbInstance;
+        static DatabaseDestroyer destroyer;
     protected:
-        Database(){}
-        Database(const Database& );
-        Database& operator = (Database &);
+        Database();
+        Database(const Database& ) = delete;
+        Database& operator = (Database &)=delete;
         ~Database();
         friend class DatabaseDestroyer;
     public:
-        static DatabaseDestroyer destroyer;
         static Database* getInstance() {
             if (!pInstance)
             {
@@ -44,8 +44,6 @@ class Database {
 
 };
 
-Database* Database::pInstance = nullptr;
-DatabaseDestroyer Database::destroyer;
-QSqlDatabase Database::dbInstance;
+
 
 #endif // DATABASE_H

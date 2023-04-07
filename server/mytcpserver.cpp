@@ -1,8 +1,5 @@
 #include "mytcpserver.h"
-#include "serverfunction.h"
-//#include "database.h"
-#include <QDebug>
-#include <QCoreApplication>
+
 
 MyTcpServer::MyTcpServer(QObject *parent) : QObject(parent){
     mTcpServer = new QTcpServer(this);
@@ -13,7 +10,7 @@ MyTcpServer::MyTcpServer(QObject *parent) : QObject(parent){
     } else {
         server_status = 1;
         qDebug() << "server is started";
-        //Database::getInstance();
+
     }
 }
 

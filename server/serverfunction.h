@@ -3,6 +3,15 @@
 
 #include <QCoreApplication>
 #include <QString>
+#include <stdio.h>
+#include "database.h"
+#include <QDebug>
+#include <QCoreApplication>
+#include <QJsonDocument>
+#include <QJsonValue>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QSqlQuery>
 
 /*
 parsing — функция, которая обрабатывает сообщения клиента: выделяет команду и аргументы, а затем вызывает соответствующую функцию

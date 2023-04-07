@@ -1,14 +1,5 @@
-#include <stdio.h>
+
 #include "serverfunction.h"
-#include "database.h"
-#include <QDebug>
-#include <QCoreApplication>
-#include <QJsonDocument>
-#include <QJsonValue>
-#include <QJsonArray>
-#include <QJsonObject>
-
-
 
 QByteArray parse(QByteArray request) {
     // {"method": "register", "login": "qwer", "password": "pass"}
@@ -37,10 +28,11 @@ QByteArray parse(QByteArray request) {
 }
 
 QByteArray auth(QJsonObject request){
-    Database::getInstance();
+    //Database::getInstance();
     QVariantMap response;
     QString login = request["login"].toString();
     QString password = request["password"].toString();
+    Database::getInstance()->doSQLQuery("select * from Users where login =" + login);
     response["message"] = QString("Autherisation with login %1 and password %2").arg(login, password);
     return QJsonDocument::fromVariant(response).toJson();
 }

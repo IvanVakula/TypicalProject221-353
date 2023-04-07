@@ -7,7 +7,10 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSqlRecord>
-
+Database::Database()
+{
+    initDB();
+}
 
 void Database::initDB() {
     this->dbInstance = QSqlDatabase::addDatabase("QSQLITE");
@@ -24,5 +27,10 @@ Database::~Database() {
 QSqlQuery Database::doSQLQuery(QString stringQuery) {
     QSqlQuery query(this->dbInstance);
     query.exec(stringQuery);
+
     return query;
 }
+
+Database* Database::pInstance = nullptr;
+QSqlDatabase Database::dbInstance;
+DatabaseDestroyer Database::destroyer;

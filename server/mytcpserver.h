@@ -8,6 +8,9 @@
 #include <QByteArray>
 #include <QDebug>
 
+#include "serverfunction.h"
+
+
 class MyTcpServer : public QObject
 {
     Q_OBJECT
