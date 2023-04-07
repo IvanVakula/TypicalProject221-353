@@ -1,25 +1,27 @@
 #include "mytcpserver.h"
 #include "serverfunction.h"
+//#include "database.h"
 #include <QDebug>
 #include <QCoreApplication>
 
-MyTcpServer::~MyTcpServer()
-{
-    //mTcpSocket->close();
-    mTcpServer->close();
-    server_status=0;
-}
 MyTcpServer::MyTcpServer(QObject *parent) : QObject(parent){
     mTcpServer = new QTcpServer(this);
-    connect(mTcpServer, &QTcpServer::newConnection,
-            this, &MyTcpServer::slotNewConnection);
+    connect(mTcpServer, &QTcpServer::newConnection, this, &MyTcpServer::slotNewConnection);
 
     if(!mTcpServer->listen(QHostAddress::Any, 33333)){
         qDebug() << "server is not started";
     } else {
-        server_status=1;
+        server_status = 1;
         qDebug() << "server is started";
+        //Database::getInstance();
     }
+}
+
+MyTcpServer::~MyTcpServer()
+{
+    mTcpServer->close();
+    server_status = 0;
+    //DatabaseDestroyer Database::destroyer;
 }
 
 void MyTcpServer::slotNewConnection(){
@@ -35,7 +37,7 @@ void MyTcpServer::slotNewConnection(){
 
 void MyTcpServer::slotServerRead() {
     QTcpSocket* tempSocket = (QTcpSocket*)sender();
-    QString request;
+    QByteArray request;
     while(tempSocket->bytesAvailable()>0) {
         request.append(tempSocket->readAll());
     }
