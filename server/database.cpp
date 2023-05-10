@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include "database.h"
 #include <QCoreApplication>
 #include <QVariant>
@@ -7,6 +7,8 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSqlRecord>
+
+
 Database::Database()
 {
     initDB();
@@ -18,8 +20,9 @@ void Database::initDB() {
     if (!this->dbInstance.open()) {
         qDebug() << this->dbInstance.lastError().text();
     }
-    QSqlQuery query(this->dbInstance);
-    query.exec("CREATE TABLE Users (login VARCHAR (255) UNIQUE PRIMARY KEY NOT NULL, password VARCHAR (255) NOT NULL, token VARCHAR (255) NOT NULL UNIQUE)");
+    this->doSQLQuery("CREATE TABLE IF NOT EXISTS Users (userID INTEGER PRIMARY KEY, login VARCHAR (255) UNIQUE NOT NULL, password VARCHAR (255) NOT NULL, token VARCHAR (255) UNIQUE NOT NULL, isTeacher BOOL NOT NULL)");
+    this->doSQLQuery("CREATE TABLE IF NOT EXISTS Tasks (taskID INTEGER PRIMARY KEY, text VARCHAR (1024) NOT NULL, answer VARCHAR (1024) NOT NULL, type INT NOT NULL)");
+    this->doSQLQuery("CREATE TABLE IF NOT EXISTS UsersTasks (userID int references Users(userID), taskID int references Tasks(taskID), primary key (userID, taskID))");
 };
 
 Database::~Database() {
@@ -27,7 +30,6 @@ Database::~Database() {
 };
 
 QSqlQuery Database::doSQLQuery(QString stringQuery) {
-    //qDebug().noquote() << stringQuery;
     QSqlQuery query(this->dbInstance);
     bool status = query.exec(stringQuery);
     qDebug().noquote() << QString("Query %1, status %2").arg(stringQuery).arg(status);

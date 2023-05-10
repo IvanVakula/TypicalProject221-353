@@ -5,6 +5,7 @@
 #include <QString>
 #include <stdio.h>
 #include "database.h"
+#include "tasks.h"
 #include <QDebug>
 #include <QCoreApplication>
 #include <QJsonDocument>
@@ -23,7 +24,10 @@ parsing — функция, которая обрабатывает сообще
 QByteArray parse(QByteArray request);
 QByteArray auth(QJsonObject request);
 QByteArray reg(QJsonObject request);
-QByteArray getStat(QJsonObject request);
+QByteArray getAllStat(QJsonObject request);
+QByteArray getUserStat(QJsonObject request);
 QByteArray getTask(QJsonObject request);
 QByteArray checkTask(QJsonObject request);
+
+bool isTeacher(QString userToken);
 #endif

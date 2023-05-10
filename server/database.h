@@ -13,7 +13,7 @@ class DatabaseDestroyer
         ~DatabaseDestroyer() {
             delete this->pInstance;
         }
-        void initialize(Database * p) {
+        void initialize(Database *p) {
             this->pInstance = p;
         }
 };
@@ -27,21 +27,19 @@ class Database {
         static DatabaseDestroyer destroyer;
     protected:
         Database();
-        Database(const Database& ) = delete;
+        Database(const Database&) = delete;
         Database& operator = (Database &)=delete;
         ~Database();
         friend class DatabaseDestroyer;
     public:
         static Database* getInstance() {
-            if (!pInstance)
-            {
+            if (!pInstance) {
                 pInstance = new Database();
                 destroyer.initialize(pInstance);
             }
             return pInstance;
         }
         QSqlQuery doSQLQuery(QString stringQuery);
-
 };
 
 

@@ -1,11 +1,11 @@
 #include "mytcpserver.h"
 
 
-MyTcpServer::MyTcpServer(QObject *parent) : QObject(parent){
+MyTcpServer::MyTcpServer(QObject *parent) : QObject(parent) {
     mTcpServer = new QTcpServer(this);
     connect(mTcpServer, &QTcpServer::newConnection, this, &MyTcpServer::slotNewConnection);
 
-    if(!mTcpServer->listen(QHostAddress::Any, 33333)){
+    if (!mTcpServer->listen(QHostAddress::Any, 33333)) {
         qDebug() << "server is not started";
     } else {
         server_status = 1;
@@ -22,12 +22,12 @@ MyTcpServer::~MyTcpServer()
 }
 
 void MyTcpServer::slotNewConnection(){
-    if(server_status==1){
+    if (server_status == 1){
         QTcpSocket *tempSocket;
         tempSocket = mTcpServer->nextPendingConnection();
         tempSocket->write("Hello!!!\r\n");
-        connect(tempSocket, &QTcpSocket::readyRead, this,&MyTcpServer::slotServerRead);
-        connect(tempSocket,&QTcpSocket::disconnected, this,&MyTcpServer::slotClientDisconnected);
+        connect(tempSocket, &QTcpSocket::readyRead, this, &MyTcpServer::slotServerRead);
+        connect(tempSocket, &QTcpSocket::disconnected, this, &MyTcpServer::slotClientDisconnected);
         TcpSocketList.push_front(tempSocket);
     }
 }
@@ -35,7 +35,7 @@ void MyTcpServer::slotNewConnection(){
 void MyTcpServer::slotServerRead() {
     QTcpSocket* tempSocket = (QTcpSocket*)sender();
     QByteArray request;
-    while(tempSocket->bytesAvailable()>0) {
+    while (tempSocket->bytesAvailable() > 0) {
         request.append(tempSocket->readAll());
     }
     QByteArray response = parse(request) + "\r\n";
@@ -43,6 +43,6 @@ void MyTcpServer::slotServerRead() {
 }
 
 void MyTcpServer::slotClientDisconnected(){
-    QTcpSocket* tempSocket = (QTcpSocket*)sender();
+    QTcpSocket* tempSocket = (QTcpSocket*) sender();
     tempSocket->close();
 }
