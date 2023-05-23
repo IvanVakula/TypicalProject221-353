@@ -12,11 +12,6 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 bool MainWindow::update_data() {
-    if (load_setting("isTeacher") == "true") {
-        ui->RoleLabel->setText("Вы преподаватель");
-    } else {
-        ui->RoleLabel->setText("Вы студент");
-    }
     ui->StatLabel->setText(getStat());
 }
 
@@ -37,7 +32,6 @@ void MainWindow::on_task1_clicked()
 {
     QVariantMap task = getTask(1);
     openTask(task);
-    ui->StatLabel->setText(getStat());
 }
 
 
@@ -46,7 +40,6 @@ void MainWindow::on_task2_clicked()
 {
     QVariantMap task = getTask(2);
     openTask(task);
-    ui->StatLabel->setText(getStat());
 }
 
 
@@ -54,7 +47,6 @@ void MainWindow::on_task3_clicked()
 {
     QVariantMap task = getTask(3);
     openTask(task);
-    ui->StatLabel->setText(getStat());
 }
 
 

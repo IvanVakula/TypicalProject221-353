@@ -28,7 +28,8 @@ QString сalc_sdnf(std::vector<bool> f) {
                     result += QString("x%1").arg(j + 1);
                 }
                 if (j < n - 1) {
-                    result += "&";
+                    //result += "&";
+                    result += ""; //&
                 }
             }
         }
@@ -46,7 +47,7 @@ QString calc_sknf(std::vector<bool> f) {
     for (int i = 0; i < int(f.size()); ++i) {
         if (!f[i]) {
             if (!first_term) {
-                result += "&";
+                result += ""; //&
             } else {
                 first_term = false;
             }
@@ -93,6 +94,14 @@ QString vectorToString(std::vector<bool> functionValues) {
 }
 
 QString karno_map(std::vector<bool> f) {
+    /*QString result = "";
+    result.append(QString::number(f[0]));
+    result.append(QString::number(f[1]));
+    result.append(QString::number(f[3]));
+    result.append(QString::number(f[2]));
+    result.append("");
+    result.append(QString::number(f[0]));*/
+
     std::vector<std::vector<bool>> map(4, std::vector<bool>(4));
 
     // заполняем карту Карно
@@ -136,7 +145,7 @@ QVariantMap TaskVakula() {
     int length = twoToRandomPower();
     std::vector<bool> functionValues = randomFunctionValues(length);
     QString answer = сalc_sdnf(functionValues);
-    qDebug() << answer;
+    //qDebug() << answer;
     task["text"] = QString("Найдите СДНФ по данному вектору значений: %1")
             .arg(vectorToString(functionValues));
     task["answer"] = answer;
@@ -149,7 +158,7 @@ QVariantMap TaskPenkov() {
     int length = twoToRandomPower();
     std::vector<bool> functionValues = randomFunctionValues(length);
     QString answer = calc_sknf(functionValues);
-    qDebug() << answer;
+    //qDebug() << answer;
     task["text"] = QString("Найдите СКНФ по данному вектору значений: %1")
             .arg(vectorToString(functionValues));
     task["answer"] = answer;
@@ -165,12 +174,4 @@ QVariantMap TaskKomolov() {
             .arg(vectorToString(functionValues));
     task["answer"] = answer;
     return task;
-    /*
-     * f=1101 1100 0101 0011
-     *
-     * 1110
-     * 1100
-     * 0011
-     * 0110
-     * */
 }

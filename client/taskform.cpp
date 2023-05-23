@@ -25,8 +25,8 @@ void TaskForm::on_TryButton_clicked()
 {
     QString userAnswer = this->ui->AnswerLineEdit->text();
     bool status = checkTask(this->taskId, userAnswer);
-    if (status) this->ui->statusLabel->setText("Вы молодец!");
-        else this->ui->statusLabel->setText("Вы лох!");
+    if (status) this->ui->statusLabel->setText("Правильный ответ");
+        else this->ui->statusLabel->setText("Неправильный ответ");
 }
 
 

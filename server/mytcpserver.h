@@ -9,7 +9,9 @@
 #include <QDebug>
 #include "serverfunction.h"
 
-
+/*!
+ * \brief Класс сервера
+ */
 class MyTcpServer : public QObject
 {
     Q_OBJECT
@@ -18,8 +20,17 @@ public:
     ~MyTcpServer();
 
 public slots:
+    /*!
+     * \brief Слот нового соединения
+     */
     void slotNewConnection();
+    /*!
+     * \brief Слот, обрабатывающий отключение клиента
+     */
     void slotClientDisconnected();
+    /*!
+     * \brief Слот, обрабатывающий приходящие запросы
+     */
     void slotServerRead();
 
 private:

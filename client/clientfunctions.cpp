@@ -46,6 +46,7 @@ QString getStat() {
     request["method"] = "getUserStat";
     request["token"] = load_setting("token");
     QJsonObject response = Network::getInstance()->doRequest(request);
+
     const auto stat = response["result"].toArray();
     for (const auto& item : stat) {
         const auto item_obj = item.toObject();
@@ -53,12 +54,13 @@ QString getStat() {
         const int solved_tasks = item_obj["solved_tasks"].toInt();
         result_str += QString("%1 - %2\n").arg(type).arg(solved_tasks);
     }
+    //QJsonArray res = response.value("result").toArray();
+    //return res;
     return result_str;
 }
 
-QVariantMap getAllStat() {
+QJsonArray getAllStat() {
     QVariantMap request;
-    QString result_str;
     request["method"] = "getAllStat";
     request["token"] = load_setting("token");
     QJsonObject response = Network::getInstance()->doRequest(request);
@@ -71,7 +73,10 @@ QVariantMap getAllStat() {
         result_str += QString("%1 - %2\n").arg(type).arg(solved_tasks);
     }
     */
-    return response["result"].toObject().toVariantMap();
+    QJsonArray res = response.value("result").toArray();
+    qDebug() << res;
+    //qDebug() << response["result"].toObject().toVariantMap();
+    return res;
 }
 
 QVariantMap getTask(int taskType) {

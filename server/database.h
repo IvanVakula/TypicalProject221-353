@@ -18,17 +18,28 @@ class DatabaseDestroyer
         }
 };
 
-
+/*!
+ * \brief Синглтон-класс для работы с базой данных
+ */
 class Database {
     private:
         static Database * pInstance;
+        /*!
+         * \brief Функция открытия базы данных
+         */
         void initDB();
         static QSqlDatabase dbInstance;
         static DatabaseDestroyer destroyer;
     protected:
+        /*!
+         * \brief Конструктор класса
+         */
         Database();
         Database(const Database&) = delete;
         Database& operator = (Database &)=delete;
+        /*!
+         * brief Деструктор класса
+        */
         ~Database();
         friend class DatabaseDestroyer;
     public:
@@ -39,6 +50,11 @@ class Database {
             }
             return pInstance;
         }
+        /*!
+         * \brief Функция осуществления SQL-запроса
+         * \param[in] stringQuery SQL-запрос строкой
+         * \return Объект типа QSqlQuery
+         */
         QSqlQuery doSQLQuery(QString stringQuery);
 };
 

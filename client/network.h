@@ -10,6 +10,7 @@
 
 class Network;
 
+
 class NetworkDestroyer
 {
     private:
@@ -23,7 +24,9 @@ class NetworkDestroyer
         }
 };
 
-
+/*!
+ * \brief Синглтон-класс для работы с сетью
+ */
 class Network: public QObject {
     private:
         static Network* pInstance;
@@ -31,9 +34,15 @@ class Network: public QObject {
         static QTcpSocket* tcpInstance;
         static NetworkDestroyer destroyer;
     protected:
+        /*!
+         * \brief Конструктор класса, фукнция инициализации TCP-соединения.
+         */
         Network();
         Network(const Network&) = delete;
         Network& operator = (Network &) = delete;
+        /*!
+         * \brief Деструктор класса Network
+         */
         ~Network();
         friend class NetworkDestroyer;
     public:
@@ -44,6 +53,11 @@ class Network: public QObject {
             }
             return pInstance;
         }
+        /*!
+         * \brief Фукнция выполнения JSON-запроса
+         * \param[in] Передаваемые данные
+         * \return Ответ сервера в JSON-формате
+         */
         QJsonObject doRequest(QVariantMap request);
 
 };
